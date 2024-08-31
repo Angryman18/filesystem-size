@@ -2,71 +2,56 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"size/core"
 )
 
-type FileData struct {
-	FileName string
-	FileSize float64
-}
-
-type FileInfo struct {
-	TreeChan   chan FileData
-	DetailTree bool
-}
-
-type FileSize struct {
-	Size float64
-}
-
-func (f *FileData) getSizeStr() string {
-	size := f.FileSize
-	switch {
-	case size > 1024*1024*1024:
-		return fmt.Sprintf("%.2f %s", size/float64(1024*1024*1024), "GB")
-	case size > 1024*1024:
-		return fmt.Sprintf("%.2f %s", size/float64(1024*1024), "MB")
-	case size > 1024:
-		return fmt.Sprintf("%.2f %s", size/float64(1024), "KB")
-	case size > 0:
-		return fmt.Sprintf("%.0f %s", size, "B")
-	default:
-		return "N/A"
-	}
-}
-
 func main() {
+	coreArgs := core.OsArgs{Folder: "", Short: false, Delete: ""}
+	cmdArgs := coreArgs.GetArgs()
+	operation := core.NewOperation(cmdArgs)
+	operation.Operate()
+	// wg := &sync.WaitGroup{}
+	// dChan := make(chan string)
 
-	fileInfo := FileInfo{TreeChan: make(chan FileData)}
-	totalSize := FileData{FileSize: 0.00}
+	// go createFold(dChan)
+	// for i := 0; i <= 10; i++ {
+	// 	wg.Add(1)
+	// 	go func() {
+	// 		defer wg.Done()
+	// 		for dir := range dChan {
+	// 			fmt.Println(dir, i)
+	// 			os.Mkdir(dir, 0777)
+	// 		}
+	// 	}()
+	// }
 
-	go func() {
-		defer close(fileInfo.TreeChan)
-		fileInfo.traverseFileSystem(".")
-	}()
+	// wg.Wait()
 
-	for ele := range fileInfo.TreeChan {
-		buildString := ele.getSizeStr() + " ---> " + ele.FileName
-		fmt.Println(buildString)
-		totalSize.FileSize += ele.FileSize
-	}
-
-	fmt.Println("Total Size = ", totalSize.getSizeStr())
 }
 
-func (f *FileInfo) traverseFileSystem(path string) {
-	d, _ := os.ReadDir(path)
-	var root string = path
-	for _, ele := range d {
-		if ele.IsDir() {
-			f.traverseFileSystem(root + "/" + ele.Name())
-		} else {
-			fileInfo, err := ele.Info()
-			if err != nil {
-				panic("Error Reading File Info")
-			}
-			d := FileData{FileName: fileInfo.Name(), FileSize: float64(fileInfo.Size())}
-			f.TreeChan <- d
+func createFold(dChan chan<- string) {
+	defer close(dChan)
+	for i := range Xrange(1000) {
+		parentDir := fmt.Sprintf("test1/test %d", i)
+		dChan <- parentDir
+		for l := range Xrange(1000) {
+			childDir := parentDir + "/" + fmt.Sprintf("test %d", l)
+			dChan <- childDir
+
 		}
 	}
+}
+
+func Xrange(length int) chan int {
+	dChan := make(chan int)
+	go func() {
+		defer close(dChan)
+		loop := func() {
+			for i := 0; i <= length; i++ {
+				dChan <- i
+			}
+		}
+		loop()
+	}()
+	return dChan
 }
