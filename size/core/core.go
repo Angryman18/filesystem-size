@@ -68,6 +68,15 @@ func PrintResult(duration float32, totalSize Result) {
 
 func ArgsSetup(o *Operation) string {
 	var path string = "."
+	if o.Args.Help {
+		fmt.Println(`
+		Usage: size [OPTIONS] [OPTIONS]
+			-s						- will show results in short
+			-f=[FOLDER_NAME]				- size will run on this specefic folder
+			-s -f=[FOLDER_NAME]				- size will run short on this specefic folder.
+		`)
+		os.Exit(0)
+	}
 	if len(o.Args.Folder) > 0 {
 		path = o.Args.Folder
 	}
@@ -75,6 +84,7 @@ func ArgsSetup(o *Operation) string {
 		err := os.RemoveAll(o.Args.Delete)
 		if err != nil {
 			fmt.Println("Could not remove file")
+			os.Exit(1)
 		}
 		fmt.Println("Deleted successfully")
 		os.Exit(0)
@@ -83,7 +93,10 @@ func ArgsSetup(o *Operation) string {
 }
 
 func (f *FileInfo) traverseFileSystem(path string) {
-	d, _ := os.ReadDir(path)
+	d, pathError := os.ReadDir(path)
+	if pathError != nil {
+		fmt.Println(" -> ", pathError.Error())
+	}
 	var root string = path
 	for _, ele := range d {
 		if ele.IsDir() {
