@@ -8,4 +8,4 @@
 
 #### cd to the path and run `snapcraft`. this will build the snap package and will create `.snap` file on your root.
 
-### after the `.snap` file is created you can install it by running `sudo snap install <package_name.snap> --dengerous --devmode`
+#### after the `.snap` file is created you can install it by running `sudo snap install <package_name.snap> --dengerous --devmode`
