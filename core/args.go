@@ -6,18 +6,21 @@ import (
 )
 
 type OsArgs struct {
-	Folder string
-	Short  bool
-	Delete string
-	Help   bool
+	Folder  string
+	Short   bool
+	Delete  string
+	Help    bool
+	Version bool
 }
 
 const (
-	Folder   string = "-f"
-	Short    string = "-s"
-	Delete   string = "-d"
-	Help     string = "-h"
-	HelpFull string = "--help"
+	Folder      string = "-f"
+	Short       string = "-s"
+	Delete      string = "-d"
+	Help        string = "-h"
+	Version     string = "-v"
+	VersionLong string = "--version"
+	HelpFull    string = "--help"
 )
 
 func (o *OsArgs) GetArgs() *OsArgs {
@@ -33,6 +36,8 @@ func (o *OsArgs) GetArgs() *OsArgs {
 				o.Delete = strings.Split(ele, "=")[1]
 			case Includes(ele, Help) || Includes(ele, HelpFull):
 				o.Help = true
+			case Includes(ele, Version) || Includes(ele, VersionLong):
+				o.Version = true
 			default:
 				return o
 			}

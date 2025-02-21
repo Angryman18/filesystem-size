@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -28,6 +29,12 @@ type Result struct {
 }
 
 func (o *Operation) Operate() {
+
+	if o.Args.Version {
+		fmt.Println("gtds version 1.0.0")
+		return
+	}
+
 	fileInfo := FileInfo{TreeChan: make(chan FileData)}
 	totalSize := Result{FileSize: 0.00, TotalFiles: 0}
 
@@ -41,14 +48,14 @@ func (o *Operation) Operate() {
 
 	for ele := range fileInfo.TreeChan {
 		if !ele.IsDir {
+			totalSize.TotalFiles += 1
+			totalSize.FileSize += ele.FileSize
 			if o.Args.Short {
 				fmt.Printf("\r%d Files %d Folders Took %.2f s Total Size = %s", totalSize.TotalFiles, totalSize.TotalDirs, Duration(start), getSizeStr(totalSize.FileSize))
 			} else {
 				buildString := getSizeStr(ele.FileSize) + " ---> " + ele.FileName
 				fmt.Println(buildString)
 			}
-			totalSize.TotalFiles += 1
-			totalSize.FileSize += ele.FileSize
 		} else {
 			totalSize.TotalDirs += 1
 		}
@@ -57,6 +64,8 @@ func (o *Operation) Operate() {
 	// start.
 	if !o.Args.Short {
 		PrintResult(Duration(start), totalSize)
+	} else {
+		fmt.Println("")
 	}
 }
 
@@ -70,10 +79,10 @@ func ArgsSetup(o *Operation) string {
 	var path string = "."
 	if o.Args.Help {
 		fmt.Println(`
-		Usage: size [OPTIONS] [OPTIONS]
-			-s						- will show results in short
-			-f=[FOLDER_NAME]				- size will run on this specefic folder
-			-s -f=[FOLDER_NAME]				- size will run short on this specefic folder.
+Usage: size [OPTIONS] [OPTIONS]
+-s			- will show results in short
+-f=[FOLDER_NAME]	- size will run on this specefic folder
+-s -f=[FOLDER_NAME]	- size will run short on this specefic folder.
 		`)
 		os.Exit(0)
 	}
@@ -81,6 +90,13 @@ func ArgsSetup(o *Operation) string {
 		path = o.Args.Folder
 	}
 	if len(o.Args.Delete) > 0 {
+		var sure string
+		fmt.Printf("Are you sure want to delete? [yes/no] ")
+		fmt.Scan(&sure)
+		if strings.ToLower(sure) != "yes" {
+			fmt.Println("Exited")
+			os.Exit(0)
+		}
 		err := os.RemoveAll(o.Args.Delete)
 		if err != nil {
 			fmt.Println("Could not remove file")
