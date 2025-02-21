@@ -31,8 +31,8 @@ type Result struct {
 func (o *Operation) Operate() {
 
 	if o.Args.Version {
-		fmt.Println("gtds version 1.0.0")
-		return
+		fmt.Println("gtds version 1.0.1")
+		os.Exit(0)
 	}
 
 	fileInfo := FileInfo{TreeChan: make(chan FileData)}
