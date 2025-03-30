@@ -28,6 +28,36 @@ export default function Home() {
           <p>Github</p>
         </Link>
         <CodeBlock>curl -sL gtds.junior-dev.com/install.sh | sudo bash</CodeBlock>
+
+        <div>
+          <h1 className='md:text-3xl text-2xl font-bold md:my-8 my-6'>Heres How it works</h1>
+        </div>
+        <video src='/video.webm' autoFocus controls={false} autoPlay loop muted playsInline />
+
+        {/* <div>
+          <h1 className='md:text-3xl text-2xl font-bold md:my-8 my-6'>Heres How it works</h1>
+        </div> */}
+
+        <video
+          src='/video2.webm'
+          className='my-4'
+          autoFocus
+          controls={false}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      </div>
+
+      <div className='mt-16 flex justify-center'>
+        <a
+          href='https://github.com/Angryman18'
+          target='_blank'
+          className=' font-bold text-slate-500 cursor-pointer hover:underline'
+        >
+          ❤️ Shyam Mahanta
+        </a>
       </div>
     </div>
   );
