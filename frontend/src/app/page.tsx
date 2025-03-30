@@ -27,7 +27,7 @@ export default function Home() {
           <img src='/github-logo.png' alt='github' />
           <p>Github</p>
         </Link>
-        <CodeBlock>curl -s gtds.junior-dev.com/install.sh | sudo bash</CodeBlock>
+        <CodeBlock>curl -sL gtds.junior-dev.com/install.sh | sudo bash</CodeBlock>
       </div>
     </div>
   );
