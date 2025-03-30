@@ -1,7 +1,7 @@
 
 
 
-installtion guide
+### installtion guide
 
 
 run ``` curl -sL gtds.junior-dev.com/install.sh | sudo bash ```
