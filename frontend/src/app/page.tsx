@@ -1,0 +1,34 @@
+import CodeBlock from "@/components/CodeBlock";
+import Image from "next/image";
+import Link from "next/link";
+
+const Code = ({ children }: { children: React.ReactNode }) => (
+  <span className='bg-gray-200 px-1 rounded-md text-sm'>{children}</span>
+);
+
+export default function Home() {
+  return (
+    <div className='w-[90%] md:w-[75%] lg:w-[60%] xl:w-[40%] my-4 ml-auto mr-auto'>
+      <div className='flex flex-col'>
+        <h1 className='text-4xl font-bold'>Get Your Directory Size (GTDS)</h1>
+
+        <p className='mt-16 mb-4'>
+          Get the size of your computer directory fast. We oftern have tons of{" "}
+          <Code>node_modules</Code> and when actully wanted to know the size takes a whole lot of
+          time to calculate. Thus the <Code>gtds</Code> can help to calculate your directory size
+          faster.
+        </p>
+
+        <Link
+          href='https://github.com/Angryman18/filesystem-size'
+          target='_blank'
+          className='text-indigo-500 flex gap-x-2 items-center my-4'
+        >
+          <img src='/github-logo.png' alt='github' />
+          <p>Github</p>
+        </Link>
+        <CodeBlock>curl -s gtds.junior-dev.com/install.sh | sudo bash</CodeBlock>
+      </div>
+    </div>
+  );
+}
