@@ -13,7 +13,7 @@ export default function Home() {
         <h1 className='text-4xl font-bold'>Get The Directory Size (GTDS)</h1>
 
         <p className='mt-16 mb-4'>
-          Get the size of your computer directory fast. We often have tons of folder, files or dependencies(<Code>node_modules</Code>) gathers on our computer and when actully wanted to know the size of our desktop takes a long time to calculate. Thus the <Code>gtds</Code> can help to calculate your directory size faster then ever. tey it out.
+          Get the size of your computer directory fast. We often have tons of folder, files or dependencies (<Code>node_modules</Code>) gathers on our computer and when actully wanted to know the size of our desktop takes a long time to calculate. Thus the <Code>gtds</Code> can help to calculate your directory size faster then ever. Try it out.
         </p>
 
         <Link
