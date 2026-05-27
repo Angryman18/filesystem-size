@@ -24,7 +24,7 @@ export default function Home() {
           <img src='/github-logo.png' alt='github' />
           <p>Github</p>
         </Link>
-        <CodeBlock>curl -sL gtds.junior-dev.com/install.sh | sudo bash</CodeBlock>
+        <CodeBlock>curl -sL gtds.engine-app.com/install.sh | sudo bash</CodeBlock>
 
         <div>
           <h1 className='md:text-3xl text-2xl font-bold md:my-8 my-6'>Heres How it works</h1>
